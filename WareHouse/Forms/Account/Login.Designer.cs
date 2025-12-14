@@ -28,151 +28,182 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.lnklblNewAccount = new System.Windows.Forms.LinkLabel();
-            this.lnklblForgetPassword = new System.Windows.Forms.LinkLabel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.btnLogin = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+            panel1 = new System.Windows.Forms.Panel();
+            lbleror = new System.Windows.Forms.Label();
+            lnklblNewAccount = new System.Windows.Forms.LinkLabel();
+            lnklblForgetPassword = new System.Windows.Forms.LinkLabel();
+            label3 = new System.Windows.Forms.Label();
+            txtPassword = new System.Windows.Forms.TextBox();
+            txtMail = new System.Windows.Forms.TextBox();
+            btnLogin = new System.Windows.Forms.Button();
+            label2 = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.BackgroundImage = global::WareHouse.Properties.Resources.doors;
-            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Controls.Add(this.lnklblNewAccount);
-            this.panel1.Controls.Add(this.lnklblForgetPassword);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.textBox2);
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.btnLogin);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(455, 569);
-            this.panel1.TabIndex = 0;
+            panel1.BackgroundImage = Properties.Resources.doors;
+            panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            panel1.Controls.Add(lbleror);
+            panel1.Controls.Add(lnklblNewAccount);
+            panel1.Controls.Add(lnklblForgetPassword);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(txtPassword);
+            panel1.Controls.Add(txtMail);
+            panel1.Controls.Add(btnLogin);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
+            panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            panel1.Location = new System.Drawing.Point(0, 0);
+            panel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(531, 657);
+            panel1.TabIndex = 0;
+            // 
+            // lbleror
+            // 
+            lbleror.AutoSize = true;
+            lbleror.BackColor = System.Drawing.Color.Transparent;
+            lbleror.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, 162);
+            lbleror.ForeColor = System.Drawing.Color.Red;
+            lbleror.Location = new System.Drawing.Point(89, 552);
+            lbleror.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lbleror.Name = "lbleror";
+            lbleror.Size = new System.Drawing.Size(237, 19);
+            lbleror.TabIndex = 8;
+            lbleror.Text = "Lütfen bütün bilgileri doldurunuz";
             // 
             // lnklblNewAccount
             // 
-            this.lnklblNewAccount.ActiveLinkColor = System.Drawing.Color.White;
-            this.lnklblNewAccount.AutoSize = true;
-            this.lnklblNewAccount.BackColor = System.Drawing.Color.Transparent;
-            this.lnklblNewAccount.ForeColor = System.Drawing.Color.Black;
-            this.lnklblNewAccount.LinkColor = System.Drawing.Color.Green;
-            this.lnklblNewAccount.Location = new System.Drawing.Point(279, 438);
-            this.lnklblNewAccount.Name = "lnklblNewAccount";
-            this.lnklblNewAccount.Size = new System.Drawing.Size(110, 13);
-            this.lnklblNewAccount.TabIndex = 7;
-            this.lnklblNewAccount.TabStop = true;
-            this.lnklblNewAccount.Text = "Yeni Hesap Oluşturun";
+            lnklblNewAccount.ActiveLinkColor = System.Drawing.Color.White;
+            lnklblNewAccount.AutoSize = true;
+            lnklblNewAccount.BackColor = System.Drawing.Color.Transparent;
+            lnklblNewAccount.ForeColor = System.Drawing.Color.Black;
+            lnklblNewAccount.LinkColor = System.Drawing.Color.Green;
+            lnklblNewAccount.Location = new System.Drawing.Point(326, 505);
+            lnklblNewAccount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lnklblNewAccount.Name = "lnklblNewAccount";
+            lnklblNewAccount.Size = new System.Drawing.Size(121, 15);
+            lnklblNewAccount.TabIndex = 4;
+            lnklblNewAccount.TabStop = true;
+            lnklblNewAccount.Text = "Yeni Hesap Oluşturun";
+            lnklblNewAccount.LinkClicked += lnklblNewAccount_LinkClicked;
             // 
             // lnklblForgetPassword
             // 
-            this.lnklblForgetPassword.ActiveLinkColor = System.Drawing.Color.White;
-            this.lnklblForgetPassword.AutoSize = true;
-            this.lnklblForgetPassword.BackColor = System.Drawing.Color.Transparent;
-            this.lnklblForgetPassword.LinkColor = System.Drawing.Color.Gold;
-            this.lnklblForgetPassword.Location = new System.Drawing.Point(66, 438);
-            this.lnklblForgetPassword.Name = "lnklblForgetPassword";
-            this.lnklblForgetPassword.Size = new System.Drawing.Size(90, 13);
-            this.lnklblForgetPassword.TabIndex = 6;
-            this.lnklblForgetPassword.TabStop = true;
-            this.lnklblForgetPassword.Text = "Şifremi Unutttum?";
+            lnklblForgetPassword.ActiveLinkColor = System.Drawing.Color.White;
+            lnklblForgetPassword.AutoSize = true;
+            lnklblForgetPassword.BackColor = System.Drawing.Color.Transparent;
+            lnklblForgetPassword.LinkColor = System.Drawing.Color.Gold;
+            lnklblForgetPassword.Location = new System.Drawing.Point(77, 505);
+            lnklblForgetPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            lnklblForgetPassword.Name = "lnklblForgetPassword";
+            lnklblForgetPassword.Size = new System.Drawing.Size(104, 15);
+            lnklblForgetPassword.TabIndex = 3;
+            lnklblForgetPassword.TabStop = true;
+            lnklblForgetPassword.Text = "Şifremi Unutttum?";
+            lnklblForgetPassword.LinkClicked += lnklblForgetPassword_LinkClicked;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label3.ForeColor = System.Drawing.Color.MediumPurple;
-            this.label3.Location = new System.Drawing.Point(65, 154);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(324, 22);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Depo Takip Uygulamasına Hoşgeldiniz";
+            label3.AutoSize = true;
+            label3.BackColor = System.Drawing.Color.Transparent;
+            label3.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 162);
+            label3.ForeColor = System.Drawing.Color.MediumPurple;
+            label3.Location = new System.Drawing.Point(76, 178);
+            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(324, 22);
+            label3.TabIndex = 5;
+            label3.Text = "Depo Takip Uygulamasına Hoşgeldiniz";
             // 
-            // textBox2
+            // txtPassword
             // 
-            this.textBox2.Location = new System.Drawing.Point(169, 314);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(144, 20);
-            this.textBox2.TabIndex = 4;
+            txtPassword.Location = new System.Drawing.Point(197, 362);
+            txtPassword.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '*';
+            txtPassword.Size = new System.Drawing.Size(167, 23);
+            txtPassword.TabIndex = 1;
             // 
-            // textBox1
+            // txtMail
             // 
-            this.textBox1.Location = new System.Drawing.Point(169, 248);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(144, 20);
-            this.textBox1.TabIndex = 3;
+            txtMail.Location = new System.Drawing.Point(197, 286);
+            txtMail.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtMail.Name = "txtMail";
+            txtMail.Size = new System.Drawing.Size(167, 23);
+            txtMail.TabIndex = 0;
             // 
             // btnLogin
             // 
-            this.btnLogin.BackColor = System.Drawing.Color.Transparent;
-            this.btnLogin.ForeColor = System.Drawing.Color.MediumPurple;
-            this.btnLogin.Location = new System.Drawing.Point(169, 365);
-            this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(144, 49);
-            this.btnLogin.TabIndex = 2;
-            this.btnLogin.Text = "Giriş Yap";
-            this.btnLogin.UseVisualStyleBackColor = false;
+            btnLogin.BackColor = System.Drawing.Color.Transparent;
+            btnLogin.ForeColor = System.Drawing.Color.MediumPurple;
+            btnLogin.Location = new System.Drawing.Point(197, 421);
+            btnLogin.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new System.Drawing.Size(168, 57);
+            btnLogin.TabIndex = 2;
+            btnLogin.Text = "Giriş Yap";
+            btnLogin.UseVisualStyleBackColor = false;
+            btnLogin.Click += btnLogin_Click;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label2.ForeColor = System.Drawing.Color.MediumPurple;
-            this.label2.Location = new System.Drawing.Point(76, 312);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 21);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Şifre :";
+            label2.AutoSize = true;
+            label2.BackColor = System.Drawing.Color.Transparent;
+            label2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 162);
+            label2.ForeColor = System.Drawing.Color.MediumPurple;
+            label2.Location = new System.Drawing.Point(89, 360);
+            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(54, 21);
+            label2.TabIndex = 1;
+            label2.Text = "Şifre :";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label1.ForeColor = System.Drawing.Color.MediumPurple;
-            this.label1.Location = new System.Drawing.Point(76, 247);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 21);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "E-Posta :";
+            label1.AutoSize = true;
+            label1.BackColor = System.Drawing.Color.Transparent;
+            label1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 162);
+            label1.ForeColor = System.Drawing.Color.MediumPurple;
+            label1.Location = new System.Drawing.Point(89, 285);
+            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(78, 21);
+            label1.TabIndex = 0;
+            label1.Text = "E-Posta :";
             // 
             // Login
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(455, 569);
-            this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "Login";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Giriş Ekranı";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.DimGray;
+            ClientSize = new System.Drawing.Size(531, 657);
+            Controls.Add(panel1);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            Name = "Login";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "Giriş Ekranı";
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ResumeLayout(false);
 
         }
 
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel lnklblNewAccount;
         private System.Windows.Forms.LinkLabel lnklblForgetPassword;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lbleror;
     }
 }

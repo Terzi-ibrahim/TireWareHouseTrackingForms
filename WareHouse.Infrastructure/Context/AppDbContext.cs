@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Data.SqlClient;
 
-namespace WareHouse.Context
+namespace WareHouse.Infrastructure.Context
 {
     public static class AppDbContext
     {
@@ -15,6 +10,5 @@ namespace WareHouse.Context
         {
             return new SqlConnection(ConnectionString);
         }
-
     }
 }
