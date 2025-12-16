@@ -17,7 +17,7 @@ namespace WareHouse.Application.Services
             {
                 throw new ArgumentException ("Lütfen Mail bilgilerinizi kontrol ediniz.\n(@gmail.com / @hotmail.com)");               
             }
-            Users users = _usersRepository.GetUserByMail(mail);
+            Users users = _usersRepository.GetMail(mail);
             if(users == null)
             {
                 return false;
@@ -25,29 +25,40 @@ namespace WareHouse.Application.Services
             bool ispasswordCorrect = BCrypt.Net.BCrypt.Verify(password, users.UserPassword);
             if (ispasswordCorrect) { return true; }
             else { return false; }
+            
+        }
+        private string HashPassword(string password)
+        {           
+            return BCrypt.Net.BCrypt.HashPassword(password, workFactor: 12); 
         }
 
-        public bool AddUser(Users users)
+        public int AddUser(Users users)
         {
-            if(string.IsNullOrEmpty(users.UserFullName)|| string.IsNullOrEmpty(users.UserPassword)||
-                string.IsNullOrEmpty(users.UserMail) ||string.IsNullOrEmpty(users.UserPhone))
+            if (string.IsNullOrEmpty(users.UserFullName)|| string.IsNullOrEmpty(users.UserPhone))
             {
-                throw new ArgumentException("Lütfen bütün alanları eksiksiz doldurunuz.");
+                throw new ArgumentException("Lütfen bütün bilgilerinizi eksiksiz doldurun.");
             }
-            Users existingUser = _usersRepository.GetUserByMail(users.UserMail);
+            if (!users.UserMail.Contains("@gmail.com"))
+            {
+                throw new ArgumentException("Lütfen Mail bilgilerinizi kontrol ediniz.\n(@gmail.com / @hotmail.com)");
+            }
+            string plainPassword = users.UserPassword;
+            users.UserPassword = HashPassword(plainPassword);
+            try
+            {
+                int newId = _usersRepository.AddUser(users);
+                if (newId==0)
+                {
+                    Console.WriteLine("Kullanıcı ekleme işlemi veritabanında başarısız oldu.");
 
-            if (existingUser != null)
-            {
-                throw new InvalidOperationException("Bu e-posta adresi zaten kullanılmaktadır.");
+                }
+                return newId;
             }
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(users.UserPassword);
-            users.UserPassword = passwordHash;
-            if (users.RoleId == 0)
+            catch(Exception ex)
             {
-                users.RoleId = 1;
+                Console.WriteLine($"[SERVICE HATA] Kullanıcı oluşturma sırasında bir hata oluştu: {ex.Message}");
+                return 0;
             }
-            bool isAdded = _usersRepository.AddUser(users);
-            return isAdded;
         }
         public void  SendMail(string mail)
         {
@@ -55,7 +66,7 @@ namespace WareHouse.Application.Services
             {
                 throw new ArgumentException("Lütfen e posta adresini doldurunuz (@gmail.com)");
             }
-            Users user = _usersRepository.GetUserByMail(mail);
+            Users user = _usersRepository.GetMail(mail);
             if(user == null)
             {
                 throw new InvalidDataException("Bu e-posta adresiyle ilgili sistemde kayıt bulunmuyor.");
@@ -86,9 +97,60 @@ namespace WareHouse.Application.Services
                 return false;
             }
         }
+        public int Update(Users user)
+        {
+            if (string.IsNullOrEmpty(user.UserPhone)|| string.IsNullOrEmpty(user.UserFullName))
+            {
+                throw new ArgumentException("Lütfen bütün bilgilerinizi eksiksiz doldurun.");
+            }
+            if (!user.UserMail.Contains("@gmail.com"))
+            {
+                throw new ArgumentException("Lütfen Mail bilgilerinizi kontrol ediniz.\n(@gmail.com / @hotmail.com)");
+            }
+            try
+            {
+                int currentId = _usersRepository.UpdateUser(user);
+                if (currentId == 0)
+                {
+                    Console.WriteLine("Kullanıcı ekleme işlemi veri tabanında başarısız oldu.");
+                }
+                return currentId;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"[SERVICE HATA] Kullanıcı oluşturma sırasında bir hata oluştu: {ex.Message}");
+                return 0;
+            }
 
+        }
+        public int Delete(int  user)
+        {            
+            try
+            {
+                int currentId = _usersRepository.DeleteUser(user);
+                if (currentId == 0)
+                {
+                    Console.WriteLine("Kullanıcı ekleme işlemi veri tabanında başarısız oldu.");
+                }
+                return currentId;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SERVICE HATA] Kullanıcı oluşturma sırasında bir hata oluştu: {ex.Message}");
+                return 0;
+            }
+        }
 
+        public List<Users> GetUser(string name)
+        {
+            List<Users> userList = _usersRepository.GetUser(name);       
+            return userList;
 
+        }
+        public int GetAllUser()
+        {
+            return _usersRepository.GetAllUserCount();
+        }
 
     }
 }

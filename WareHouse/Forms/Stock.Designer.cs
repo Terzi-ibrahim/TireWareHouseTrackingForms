@@ -160,7 +160,7 @@
             materialTextBox2.Depth = 0;
             materialTextBox2.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             materialTextBox2.LeadingIcon = null;
-            materialTextBox2.Location = new System.Drawing.Point(199, 99);
+            materialTextBox2.Location = new System.Drawing.Point(199, 144);
             materialTextBox2.MaxLength = 50;
             materialTextBox2.MouseState = MaterialSkin.MouseState.OUT;
             materialTextBox2.Multiline = false;
@@ -177,7 +177,7 @@
             materialTextBox1.Depth = 0;
             materialTextBox1.Font = new System.Drawing.Font("Roboto", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             materialTextBox1.LeadingIcon = null;
-            materialTextBox1.Location = new System.Drawing.Point(199, 23);
+            materialTextBox1.Location = new System.Drawing.Point(199, 48);
             materialTextBox1.MaxLength = 50;
             materialTextBox1.MouseState = MaterialSkin.MouseState.OUT;
             materialTextBox1.Multiline = false;
@@ -216,7 +216,7 @@
             materialLabel2.AutoSize = true;
             materialLabel2.Depth = 0;
             materialLabel2.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            materialLabel2.Location = new System.Drawing.Point(56, 81);
+            materialLabel2.Location = new System.Drawing.Point(56, 63);
             materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             materialLabel2.Name = "materialLabel2";
             materialLabel2.Size = new System.Drawing.Size(107, 19);

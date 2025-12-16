@@ -6,19 +6,6 @@ namespace WareHouse.Application.Services
     {
         private readonly StockRepository _stock = new StockRepository();
 
-        public bool View(string tiresize)
-        {
-            if (string.IsNullOrEmpty(tiresize))
-            {
-                throw new Exception("Lütfen boş ebat yazmayın");
-            }
-            Stock stock = _stock.
-            if(stock == null)
-            {
-                return false;
-            }
-
-            
-        }
+       
     }
 }

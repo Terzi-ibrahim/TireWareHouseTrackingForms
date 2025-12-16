@@ -48,17 +48,14 @@ namespace WareHouse.Forms.Account
             AccountService service = new AccountService();
             try
             {
-                if(service.AddUser(users))
-                {
+                    service.AddUser(users);
+                
                     lbleror.Text = "Kullanıcı kaydı başarılı Login sayfasına yönlendiriliyosunuz...";
                     await Task.Delay(1500);
                     Login login = new Login();
                     this.Hide();
                     login.ShowDialog();
-                }
-                else{
-                    MessageBox.Show("Kayıt oluşturulamadı (Veritabanı hatası).");
-                }
+               
             }catch (ArgumentException ex) 
             {
                 MessageBox.Show(ex.Message, "Uyarı");

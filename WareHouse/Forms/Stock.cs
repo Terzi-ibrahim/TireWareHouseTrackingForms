@@ -18,6 +18,7 @@ namespace WareHouse.Forms
         {
             string tiresize = mskview.Text;
 
+
         }
     }
 }

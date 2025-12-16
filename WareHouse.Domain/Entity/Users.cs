@@ -17,7 +17,7 @@ namespace WareHouse.Domain.Entity
 
         public Role Role { get; set; }
 
-        public ICollection<UserWareHouse> UserWareHouses { get; set; }
+        //public ICollection<UserWareHouse> UserWareHouses { get; set; }
 
     }
 }
