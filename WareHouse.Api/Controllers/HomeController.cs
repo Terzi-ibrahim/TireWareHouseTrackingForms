@@ -9,14 +9,6 @@ namespace WareHouse.Api.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public IActionResult GetTires()
-        {
-            
-            var service = new TireSizeService(); 
-            var result = service.GetTireSizesDataTable();
-
-            return Ok(result); 
-        }
+      
     }
 }
