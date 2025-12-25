@@ -29,7 +29,8 @@
         private void InitializeComponent()
         {
             panel1 = new System.Windows.Forms.Panel();
-            materialButton8 = new MaterialSkin.Controls.MaterialButton();
+            btnseason = new MaterialSkin.Controls.MaterialButton();
+            btncategory = new MaterialSkin.Controls.MaterialButton();
             btnstok = new MaterialSkin.Controls.MaterialButton();
             btnlocation = new MaterialSkin.Controls.MaterialButton();
             btnmodel = new MaterialSkin.Controls.MaterialButton();
@@ -49,7 +50,8 @@
             // panel1
             // 
             panel1.BackColor = System.Drawing.Color.HotPink;
-            panel1.Controls.Add(materialButton8);
+            panel1.Controls.Add(btnseason);
+            panel1.Controls.Add(btncategory);
             panel1.Controls.Add(btnstok);
             panel1.Controls.Add(btnlocation);
             panel1.Controls.Add(btnmodel);
@@ -67,26 +69,49 @@
             panel1.Size = new System.Drawing.Size(187, 578);
             panel1.TabIndex = 0;
             // 
-            // materialButton8
+            // btnseason
             // 
-            materialButton8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            materialButton8.BackColor = System.Drawing.Color.DimGray;
-            materialButton8.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            materialButton8.Depth = 0;
-            materialButton8.Dock = System.Windows.Forms.DockStyle.Top;
-            materialButton8.HighEmphasis = true;
-            materialButton8.Icon = Properties.Resources.tire;
-            materialButton8.Location = new System.Drawing.Point(0, 426);
-            materialButton8.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            materialButton8.MouseState = MaterialSkin.MouseState.HOVER;
-            materialButton8.Name = "materialButton8";
-            materialButton8.NoAccentTextColor = System.Drawing.Color.Empty;
-            materialButton8.Size = new System.Drawing.Size(187, 36);
-            materialButton8.TabIndex = 19;
-            materialButton8.Text = "Kategori";
-            materialButton8.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            materialButton8.UseAccentColor = false;
-            materialButton8.UseVisualStyleBackColor = false;
+            btnseason.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            btnseason.BackColor = System.Drawing.Color.DimGray;
+            btnseason.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            btnseason.Depth = 0;
+            btnseason.Dock = System.Windows.Forms.DockStyle.Top;
+            btnseason.HighEmphasis = true;
+            btnseason.Icon = Properties.Resources.tire;
+            btnseason.Location = new System.Drawing.Point(0, 462);
+            btnseason.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            btnseason.MouseState = MaterialSkin.MouseState.HOVER;
+            btnseason.Name = "btnseason";
+            btnseason.NoAccentTextColor = System.Drawing.Color.Empty;
+            btnseason.Size = new System.Drawing.Size(187, 36);
+            btnseason.TabIndex = 20;
+            btnseason.Text = "Mevsim";
+            btnseason.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            btnseason.UseAccentColor = false;
+            btnseason.UseVisualStyleBackColor = false;
+            btnseason.Click += btnseason_Click;
+            // 
+            // btncategory
+            // 
+            btncategory.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            btncategory.BackColor = System.Drawing.Color.DimGray;
+            btncategory.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            btncategory.Depth = 0;
+            btncategory.Dock = System.Windows.Forms.DockStyle.Top;
+            btncategory.HighEmphasis = true;
+            btncategory.Icon = Properties.Resources.tire;
+            btncategory.Location = new System.Drawing.Point(0, 426);
+            btncategory.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            btncategory.MouseState = MaterialSkin.MouseState.HOVER;
+            btncategory.Name = "btncategory";
+            btncategory.NoAccentTextColor = System.Drawing.Color.Empty;
+            btncategory.Size = new System.Drawing.Size(187, 36);
+            btncategory.TabIndex = 19;
+            btncategory.Text = "Kategori";
+            btncategory.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            btncategory.UseAccentColor = false;
+            btncategory.UseVisualStyleBackColor = false;
+            btncategory.Click += btncategory_Click;
             // 
             // btnstok
             // 
@@ -108,6 +133,7 @@
             btnstok.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btnstok.UseAccentColor = false;
             btnstok.UseVisualStyleBackColor = false;
+            btnstok.Click += btnstok_Click;
             // 
             // btnlocation
             // 
@@ -129,6 +155,7 @@
             btnlocation.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btnlocation.UseAccentColor = false;
             btnlocation.UseVisualStyleBackColor = false;
+            btnlocation.Click += btnlocation_Click;
             // 
             // btnmodel
             // 
@@ -150,6 +177,7 @@
             btnmodel.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btnmodel.UseAccentColor = false;
             btnmodel.UseVisualStyleBackColor = false;
+            btnmodel.Click += btnmodel_Click;
             // 
             // btnbrand
             // 
@@ -171,6 +199,7 @@
             btnbrand.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btnbrand.UseAccentColor = false;
             btnbrand.UseVisualStyleBackColor = false;
+            btnbrand.Click += btnbrand_Click;
             // 
             // btnwarehouse
             // 
@@ -192,6 +221,7 @@
             btnwarehouse.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btnwarehouse.UseAccentColor = false;
             btnwarehouse.UseVisualStyleBackColor = false;
+            btnwarehouse.Click += btnwarehouse_Click;
             // 
             // btntire
             // 
@@ -213,6 +243,7 @@
             btntire.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btntire.UseAccentColor = false;
             btntire.UseVisualStyleBackColor = false;
+            btntire.Click += btntire_Click;
             // 
             // btntiresize
             // 
@@ -290,6 +321,7 @@
             btnexit.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btnexit.UseAccentColor = false;
             btnexit.UseVisualStyleBackColor = true;
+            btnexit.Click += btnexit_Click;
             // 
             // pictureBox1
             // 
@@ -317,7 +349,9 @@
             ClientSize = new System.Drawing.Size(1212, 578);
             Controls.Add(pnldesk);
             Controls.Add(panel1);
+            MaximizeBox = false;
             Name = "AdminPage";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "AdminPage";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -340,6 +374,7 @@
         private MaterialSkin.Controls.MaterialButton btnbrand;
         private MaterialSkin.Controls.MaterialButton btnwarehouse;
         private MaterialSkin.Controls.MaterialButton btntire;
-        private MaterialSkin.Controls.MaterialButton materialButton8;
+        private MaterialSkin.Controls.MaterialButton btncategory;
+        private MaterialSkin.Controls.MaterialButton btnseason;
     }
 }

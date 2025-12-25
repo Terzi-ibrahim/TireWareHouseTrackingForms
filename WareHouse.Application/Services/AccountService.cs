@@ -1,38 +1,49 @@
 ﻿using WareHouse.Domain.Entity;
-using WareHouse.Infrastructure.Reposityory;
 
 namespace WareHouse.Application.Services
 {
     public class AccountService 
     {
-        private readonly UsersRepository _usersRepository =new UsersRepository();
-
-        public bool Login (string mail,string password)
+        GenericRepository<Users> _repo = new GenericRepository<Users>();
+        public Users Login(string identifier, string password)
         {
-            if(string.IsNullOrEmpty(mail)|| string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(identifier) || string.IsNullOrEmpty(password))
             {
-                throw new ArgumentException("E-posta ve şifre alanı boş bırakılamaz.");
+                throw new ArgumentException("Giriş bilgileri ve şifre alanı boş bırakılamaz.");
             }
-            if (!mail.Contains("@gmail.com"))
+
+            try
             {
-                throw new ArgumentException ("Lütfen Mail bilgilerinizi kontrol ediniz.\n(@gmail.com / @hotmail.com)");               
-            }
-            Users users = _usersRepository.GetMail(mail);
-            if(users == null)
-            {
-                return false;
-            }
-            bool ispasswordCorrect = BCrypt.Net.BCrypt.Verify(password, users.UserPassword);
-            if (ispasswordCorrect) { return true; }
-            else { return false; }
+                string sql = @"SELECT U.*, R.RoleName 
+                       FROM Users U 
+                       INNER JOIN Role R ON U.RoleId = R.RoleId 
+                       WHERE U.UserMail = @Id OR U.UserFullName = @Id";
             
+
+         
+                Users user = _repo.GetById(sql, new { Id = identifier });
+
+                if (user == null)
+                {
+                    return null; 
+                }
+
+          
+                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.UserPassword);
+
+                return isPasswordValid ? user : null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[LOGIN HATA] {ex.Message}");
+                return null;
+            }
         }
         private string HashPassword(string password)
         {           
             return BCrypt.Net.BCrypt.HashPassword(password, workFactor: 12); 
         }
-
-        public int AddUser(Users users)
+        public bool AddUser(Users users)
         {
             if (string.IsNullOrEmpty(users.UserFullName)|| string.IsNullOrEmpty(users.UserPhone))
             {
@@ -46,111 +57,138 @@ namespace WareHouse.Application.Services
             users.UserPassword = HashPassword(plainPassword);
             try
             {
-                int newId = _usersRepository.AddUser(users);
-                if (newId==0)
-                {
-                    Console.WriteLine("Kullanıcı ekleme işlemi veritabanında başarısız oldu.");
-
-                }
-                return newId;
+                string sql = "INSERT INTO Users (UserFullName,UserMail,UserPhone,UserPassword,RoleId)VALUES (@UserFullName,@UserMail,@UserPhone,@UserPassword,1);";
+                int result = _repo.Execute(sql,users);
+                return result > 0;
             }
             catch(Exception ex)
             {
                 Console.WriteLine($"[SERVICE HATA] Kullanıcı oluşturma sırasında bir hata oluştu: {ex.Message}");
-                return 0;
-            }
-        }
-        public void  SendMail(string mail)
-        {
-            if (string.IsNullOrEmpty(mail)|| !IsValidEmail(mail))
-            {
-                throw new ArgumentException("Lütfen e posta adresini doldurunuz (@gmail.com)");
-            }
-            Users user = _usersRepository.GetMail(mail);
-            if(user == null)
-            {
-                throw new InvalidDataException("Bu e-posta adresiyle ilgili sistemde kayıt bulunmuyor.");
-            }          
-            string mailtoUri = $"mailto:{mail}";
-            try
-            {
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(mailtoUri)
-                {
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception ex)
-            {                
-                Console.WriteLine($"Mail istemcisini açarken hata oluştu: {ex.Message}");              
-                throw new Exception("E-posta istemcisi açılamadı.", ex);
-            }         
-        }
-        private bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
                 return false;
             }
         }
+        public string  SendMail(string mail)
+        {
+            return "After cooding...";        
+        }      
         public int Update(Users user)
         {
-            if (string.IsNullOrEmpty(user.UserPhone)|| string.IsNullOrEmpty(user.UserFullName))
+            
+            if (string.IsNullOrWhiteSpace(user.UserPhone) || string.IsNullOrWhiteSpace(user.UserFullName))
             {
                 throw new ArgumentException("Lütfen bütün bilgilerinizi eksiksiz doldurun.");
             }
-            if (!user.UserMail.Contains("@gmail.com"))
-            {
-                throw new ArgumentException("Lütfen Mail bilgilerinizi kontrol ediniz.\n(@gmail.com / @hotmail.com)");
-            }
-            try
-            {
-                int currentId = _usersRepository.UpdateUser(user);
-                if (currentId == 0)
-                {
-                    Console.WriteLine("Kullanıcı ekleme işlemi veri tabanında başarısız oldu.");
-                }
-                return currentId;
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine($"[SERVICE HATA] Kullanıcı oluşturma sırasında bir hata oluştu: {ex.Message}");
-                return 0;
-            }
 
-        }
-        public int Delete(int  user)
-        {            
-            try
+           
+            if (!user.UserMail.Contains("@gmail.com") && !user.UserMail.Contains("@hotmail.com"))
             {
-                int currentId = _usersRepository.DeleteUser(user);
-                if (currentId == 0)
+                throw new ArgumentException("Lütfen geçerli bir mail adresi giriniz (@gmail.com veya @hotmail.com)");
+            }
+            user.UserPhone = PhoneFormatter(user.UserPhone);
+            if (!user.UserPhone.StartsWith("("))
+            {
+                throw new ArgumentException("Telefon numarası geçersiz. Lütfen 10 hane olarak giriniz.");
+            }
+            try
+            {             
+                string sql = @"UPDATE Users 
+                       SET UserFullName = @UserFullName, 
+                           UserMail = @UserMail, 
+                           UserPhone = @UserPhone, 
+                           UserPassword = @UserPassword,
+                           RoleId = @RoleId
+                       WHERE UserId = @UserId";           
+                int rows = _repo.Execute(sql, user);
+
+                if (rows == 0)
                 {
-                    Console.WriteLine("Kullanıcı ekleme işlemi veri tabanında başarısız oldu.");
+                    Console.WriteLine("Güncellenecek kullanıcı bulunamadı.");
+                    return 0;
                 }
-                return currentId;
+
+                return user.UserId;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[SERVICE HATA] Kullanıcı oluşturma sırasında bir hata oluştu: {ex.Message}");
+                Console.WriteLine($"[SERVICE HATA] Kullanıcı güncelleme hatası: {ex.Message}");
                 return 0;
             }
         }
-
-        public List<Users> GetUser(string name)
+        private string PhoneFormatter(string phone)
         {
-            List<Users> userList = _usersRepository.GetUser(name);       
-            return userList;
+            // İçindeki tüm boşluk, parantez ve tireleri temizle, sadece rakamlar kalsın
+            string digits = new string(phone.Where(char.IsDigit).ToArray());
+
+            // Eğer tam 10 hane ise (başında 0 olmadan) formatla
+            if (digits.Length == 10)
+            {
+                return string.Format("({0}) {1}-{2}",
+                    digits.Substring(0, 3),
+                    digits.Substring(3, 3),
+                    digits.Substring(6));
+            }
+            // Eğer başında 0 ile 11 hane yazdıysa (0532...) ilk sıfırı atıp formatla
+            else if (digits.Length == 11 && digits.StartsWith("0"))
+            {
+                return string.Format("({0}) {1}-{2}",
+                    digits.Substring(1, 3),
+                    digits.Substring(4, 3),
+                    digits.Substring(7));
+            }
+
+            return phone; 
+        }
+        public int Delete(Users user)
+        {
+            try
+            {
+             
+                string sql = "DELETE FROM Users WHERE UserId = @UserId";            
+                int rows = _repo.Execute(sql, user);
+
+                if (rows == 0)
+                {
+                    Console.WriteLine("Silinecek kullanıcı bulunamadı.");
+                    return 0;
+                }
+                return user.UserId;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SERVICE HATA] Kullanıcı silme hatası: {ex.Message}");
+                return 0;
+            }
+        }
+        public List<Users> GetUser(Users user)
+        {
+           
+            string searchTerm = user?.UserFullName ?? "";
+
+         
+            string sql = @"SELECT 
+                    U.UserId, 
+                    U.UserFullName, 
+                    U.UserMail, 
+                    U.UserPhone, 
+                    R.RoleName 
+                   FROM Users U 
+                   INNER JOIN Role R ON U.RoleId = R.RoleId 
+                   WHERE U.UserFullName LIKE @SearchName";
+
+         
+            var result = _repo.GetAll<Users>(sql, new { SearchName = "%" + searchTerm + "%" });
+
+            return result;
+        }
+        public List<Users> GetAllUsers()
+        {
+
+            string sql = @"SELECT U.*, R.RoleName 
+               FROM Users U 
+               INNER JOIN Role R ON U.RoleId = R.RoleId";
+            var rawData = _repo.GetAll<dynamic>(sql);
+            return _repo.GetAll<Users>(sql);
 
         }
-        public int GetAllUser()
-        {
-            return _usersRepository.GetAllUserCount();
-        }
-
     }
 }

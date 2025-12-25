@@ -30,9 +30,10 @@
         {
             components = new System.ComponentModel.Container();
             panel1 = new System.Windows.Forms.Panel();
+            button1 = new System.Windows.Forms.Button();
+            btndepo = new System.Windows.Forms.Button();
             btnlocation = new System.Windows.Forms.Button();
             button10 = new System.Windows.Forms.Button();
-            btntire = new System.Windows.Forms.Button();
             btnstock = new System.Windows.Forms.Button();
             pctrbxdesk = new System.Windows.Forms.PictureBox();
             panel2 = new System.Windows.Forms.Panel();
@@ -48,9 +49,10 @@
             // panel1
             // 
             panel1.BackColor = System.Drawing.Color.SlateGray;
+            panel1.Controls.Add(button1);
+            panel1.Controls.Add(btndepo);
             panel1.Controls.Add(btnlocation);
             panel1.Controls.Add(button10);
-            panel1.Controls.Add(btntire);
             panel1.Controls.Add(btnstock);
             panel1.Controls.Add(pctrbxdesk);
             panel1.Dock = System.Windows.Forms.DockStyle.Left;
@@ -60,10 +62,31 @@
             panel1.Size = new System.Drawing.Size(146, 757);
             panel1.TabIndex = 0;
             // 
+            // button1
+            // 
+            button1.Dock = System.Windows.Forms.DockStyle.Top;
+            button1.Location = new System.Drawing.Point(0, 264);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(146, 60);
+            button1.TabIndex = 17;
+            button1.Text = "Profil";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // btndepo
+            // 
+            btndepo.Dock = System.Windows.Forms.DockStyle.Top;
+            btndepo.Location = new System.Drawing.Point(0, 204);
+            btndepo.Name = "btndepo";
+            btndepo.Size = new System.Drawing.Size(146, 60);
+            btndepo.TabIndex = 16;
+            btndepo.Text = "Depo";
+            btndepo.UseVisualStyleBackColor = true;
+            btndepo.Click += btndepo_Click;
+            // 
             // btnlocation
             // 
             btnlocation.Dock = System.Windows.Forms.DockStyle.Top;
-            btnlocation.Location = new System.Drawing.Point(0, 204);
+            btnlocation.Location = new System.Drawing.Point(0, 144);
             btnlocation.Name = "btnlocation";
             btnlocation.Size = new System.Drawing.Size(146, 60);
             btnlocation.TabIndex = 15;
@@ -81,17 +104,6 @@
             button10.Text = "Çıkış";
             button10.UseVisualStyleBackColor = true;
             button10.Click += button10_Click;
-            // 
-            // btntire
-            // 
-            btntire.Dock = System.Windows.Forms.DockStyle.Top;
-            btntire.Location = new System.Drawing.Point(0, 144);
-            btntire.Name = "btntire";
-            btntire.Size = new System.Drawing.Size(146, 60);
-            btntire.TabIndex = 2;
-            btntire.Text = "Lastik";
-            btntire.UseVisualStyleBackColor = true;
-            btntire.Click += btntire_Click;
             // 
             // btnstock
             // 
@@ -188,8 +200,9 @@
         private System.Windows.Forms.Timer timerclock;
         private System.Windows.Forms.Button btnlocation;
         private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button btntire;
         private System.Windows.Forms.Button btnstock;
         private System.Windows.Forms.Label lblTitleChildFrom;
+        private System.Windows.Forms.Button btndepo;
+        private System.Windows.Forms.Button button1;
     }
 }

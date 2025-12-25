@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using WareHouse.Application.Services;
 
@@ -10,82 +11,156 @@ namespace WareHouse.Forms.Admin
         {
             InitializeComponent();
         }
-
-        private void btnrefresh_Click(object sender, EventArgs e)
+        private void btnsearch_Click(object sender, EventArgs e)
         {
-            TireSizeService size = new TireSizeService();
-
-            dataGridView1.DataSource = size.GetTireSizesDataTable();
-        }
-
-        private void btnadd_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(mskadd.Text))
+            string name = txtsearch.Text;
+            TireSizeService service = new TireSizeService();
+            try
             {
-                MessageBox.Show("Lütfen geçerli bir ebat yazınız.", "Giriş Hatası", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                WareHouse.Domain.Entity.TireSize aranansize = new WareHouse.Domain.Entity.TireSize { TireSizeName = txtsearch.Text };
+                List<WareHouse.Domain.Entity.TireSize> tiresizelist = service.GetTireSize(aranansize);
+
+                if (tiresizelist != null)
+                {
+
+                    dtgwTiresize.DataSource = tiresizelist;
+
+                    if (dtgwTiresize.Columns.Contains("Tires"))
+                    {
+                        dtgwTiresize.Columns["Tires"].Visible = false;
+                    }
+                    dtgwTiresize.Columns["TireSizeId"].ReadOnly = true;
+                }
+                else
+                {
+
+                    dtgwTiresize.DataSource = null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+        }
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (!mskadd.MaskFull)
+            {
+                MessageBox.Show("Lütfen formatı eksiksiz doldurunuz! (Örn: 205-55-16)");
+                mskadd.Focus();
                 return;
             }
+            string add = mskadd.Text;
+            TireSizeService service = new TireSizeService();
             try
             {
-                TireSizeService size = new TireSizeService();
+                WareHouse.Domain.Entity.TireSize tire = new Domain.Entity.TireSize
+                {
+                    TireSizeName = add
+                };
+                service.Add(tire);
+                GetAllTireSize();
+                MessageBox.Show("Ebat Başarılı İle Eklendi");
+                mskadd.Text = "";
 
-                var yeniebat = size.AddTireSize(mskadd.Text);
-
-                MessageBox.Show($"Yeni ebat başarıyla eklendi: {yeniebat.TireSizeName}");
-
-                dtgwegs.DataSource = size.GetTireSizesDataTable();
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show("Beklenmeyen bir hata oluştu: " + ex.Message);
+                MessageBox.Show(ex.Message, "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
-        private void btnupdate_Click(object sender, EventArgs e)
+        private void dtgwTiresize_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(mskupdate.Text) || string.IsNullOrEmpty(txtupdate.Text))
-            {
-                MessageBox.Show("tüm alanları doldurun.");
-            }
-            int.TryParse(txtupdate.Text, out int id);
-            try
-            {
-                TireSizeService size = new TireSizeService();
-                var update = size.UpdateTireSize(id, mskupdate.Text);
-
-                MessageBox.Show(" ebat başarıyla güncellendi:");
-
-                dtgwegs.DataSource = size.GetTireSizesDataTable();
-            }
-            catch (Exception ex)
+            if (e.RowIndex >= 0)
             {
 
-                MessageBox.Show("Beklenmeyen bir hata oluştu: " + ex.Message);
+                var size = (WareHouse.Domain.Entity.TireSize)dtgwTiresize.Rows[e.RowIndex].DataBoundItem;
+
+                var onay = MessageBox.Show($"{size.TireSizeName} isimli ebat silmek istiyor musunuz?",
+                                           "Silme Onayı", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (onay == DialogResult.Yes)
+                {
+                    TireSizeService service = new TireSizeService();
+                    int silinenId = service.Delete(size);
+
+                    if (silinenId > 0)
+                    {
+                        MessageBox.Show("Ebat başarıyla silindi.");
+
+                        btnsearch_Click(null, null);
+                    }
+                }
             }
         }
-
-        private void btndelete_Click(object sender, EventArgs e)
+        private void dtgwTiresize_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtdelete.Text))
+            dtgwTiresize.Columns["TireSizeId"].ReadOnly = true;
+            if (dtgwTiresize.DataSource != null && e.RowIndex >= 0)
             {
-                MessageBox.Show("Lütfen ıd doldurunuz.");
+                try
+                {
+                    var size = (WareHouse.Domain.Entity.TireSize)dtgwTiresize.Rows[e.RowIndex].DataBoundItem;
+                    TireSizeService service = new TireSizeService();
+
+                    service.Update(size);
+
+                    MessageBox.Show("Başarıyla güncellendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (ArgumentException ex)
+                {
+
+                    MessageBox.Show(ex.Message, "Doğrulama Hatası", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+
+                    btnsearch_Click(null, null);
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Beklenmedik bir hata oluştu: " + ex.Message);
+                }
             }
-            int.TryParse(txtdelete.Text, out int id);
+        }
+        private void GetAllTireSize()
+        {
+            TireSizeService service = new TireSizeService();
             try
             {
-                TireSizeService size = new TireSizeService();
-                var delete = size.DeleteTireSize(id);
 
-                MessageBox.Show(" ebat başarıyla silindi:");
+                List<WareHouse.Domain.Entity.TireSize> tiresizelist = service.GetAll();
 
-                dtgwegs.DataSource = size.GetTireSizesDataTable();
+                if (tiresizelist != null)
+                {
+
+                    dtgwTiresize.DataSource = tiresizelist;
+
+                    if (dtgwTiresize.Columns.Contains("Tires"))
+                    {
+                        dtgwTiresize.Columns["Tires"].Visible = false;
+                    }
+                    dtgwTiresize.Columns["TireSizeId"].ReadOnly = true;
+
+                }
+                else
+                {
+
+                    dtgwTiresize.DataSource = null;
+                }
+
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show("Beklenmeyen bir hata oluştu: " + ex.Message);
+                MessageBox.Show(ex.Message, "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+        }
+
+        private void TireSize_Load(object sender, EventArgs e)
+        {
+            GetAllTireSize();
         }
     }
 }

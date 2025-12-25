@@ -14,8 +14,8 @@ namespace WareHouse.Domain.Entity
         public string  UserPhone { get; set; }
         public string  UserPassword { get; set; }
         public int RoleId { get; set; }
-
-        public Role Role { get; set; }
+        public string RoleName { get; set; } 
+   
 
         //public ICollection<UserWareHouse> UserWareHouses { get; set; }
 

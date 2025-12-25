@@ -30,14 +30,14 @@
         {
             tabControl1 = new System.Windows.Forms.TabControl();
             tabProfil = new System.Windows.Forms.TabPage();
+            panel1 = new System.Windows.Forms.Panel();
             tabControl2 = new System.Windows.Forms.TabControl();
             tabPage1 = new System.Windows.Forms.TabPage();
             txtara = new System.Windows.Forms.TextBox();
-            label1 = new System.Windows.Forms.Label();
             lblusercount = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
             btnnew = new System.Windows.Forms.Button();
             btnara = new MaterialSkin.Controls.MaterialButton();
-            tabPage2 = new System.Windows.Forms.TabPage();
             dtgwliste = new System.Windows.Forms.DataGridView();
             tabControl1.SuspendLayout();
             tabProfil.SuspendLayout();
@@ -59,6 +59,7 @@
             // tabProfil
             // 
             tabProfil.BackColor = System.Drawing.Color.RosyBrown;
+            tabProfil.Controls.Add(panel1);
             tabProfil.Controls.Add(tabControl2);
             tabProfil.Controls.Add(dtgwliste);
             tabProfil.Location = new System.Drawing.Point(4, 24);
@@ -68,47 +69,45 @@
             tabProfil.TabIndex = 0;
             tabProfil.Text = "Kullanıcı Kontrol";
             // 
+            // panel1
+            // 
+            panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            panel1.Location = new System.Drawing.Point(3, 97);
+            panel1.Name = "panel1";
+            panel1.Size = new System.Drawing.Size(1189, 10);
+            panel1.TabIndex = 3;
+            // 
             // tabControl2
             // 
             tabControl2.Controls.Add(tabPage1);
-            tabControl2.Controls.Add(tabPage2);
             tabControl2.Dock = System.Windows.Forms.DockStyle.Top;
             tabControl2.Location = new System.Drawing.Point(3, 3);
             tabControl2.Name = "tabControl2";
             tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new System.Drawing.Size(1189, 235);
+            tabControl2.Size = new System.Drawing.Size(1189, 94);
             tabControl2.TabIndex = 2;
             // 
             // tabPage1
             // 
             tabPage1.Controls.Add(txtara);
-            tabPage1.Controls.Add(label1);
             tabPage1.Controls.Add(lblusercount);
+            tabPage1.Controls.Add(label1);
             tabPage1.Controls.Add(btnnew);
             tabPage1.Controls.Add(btnara);
             tabPage1.Location = new System.Drawing.Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            tabPage1.Size = new System.Drawing.Size(1181, 207);
+            tabPage1.Size = new System.Drawing.Size(1181, 66);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // txtara
             // 
-            txtara.Location = new System.Drawing.Point(63, 23);
+            txtara.Location = new System.Drawing.Point(90, 17);
             txtara.Name = "txtara";
             txtara.Size = new System.Drawing.Size(165, 23);
-            txtara.TabIndex = 7;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(3, 23);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(54, 15);
-            label1.TabIndex = 6;
-            label1.Text = "Üye Ara :";
+            txtara.TabIndex = 1;
             // 
             // lblusercount
             // 
@@ -119,12 +118,21 @@
             lblusercount.Size = new System.Drawing.Size(0, 15);
             lblusercount.TabIndex = 5;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(18, 20);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(54, 15);
+            label1.TabIndex = 6;
+            label1.Text = "Üye Ara :";
+            // 
             // btnnew
             // 
-            btnnew.Location = new System.Drawing.Point(6, 167);
+            btnnew.Location = new System.Drawing.Point(494, 17);
             btnnew.Name = "btnnew";
             btnnew.Size = new System.Drawing.Size(128, 34);
-            btnnew.TabIndex = 4;
+            btnnew.TabIndex = 3;
             btnnew.Text = "Yeni Üye Kaydı";
             btnnew.UseVisualStyleBackColor = true;
             btnnew.Click += btnnew_Click;
@@ -136,7 +144,7 @@
             btnara.Depth = 0;
             btnara.HighEmphasis = true;
             btnara.Icon = null;
-            btnara.Location = new System.Drawing.Point(235, 23);
+            btnara.Location = new System.Drawing.Point(289, 9);
             btnara.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             btnara.MouseState = MaterialSkin.MouseState.HOVER;
             btnara.Name = "btnara";
@@ -149,26 +157,17 @@
             btnara.UseVisualStyleBackColor = true;
             btnara.Click += btnara_Click;
             // 
-            // tabPage2
-            // 
-            tabPage2.Location = new System.Drawing.Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            tabPage2.Size = new System.Drawing.Size(1181, 207);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
             // dtgwliste
             // 
             dtgwliste.AllowUserToAddRows = false;
             dtgwliste.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgwliste.Dock = System.Windows.Forms.DockStyle.Bottom;
-            dtgwliste.Location = new System.Drawing.Point(3, 244);
+            dtgwliste.Location = new System.Drawing.Point(3, 113);
             dtgwliste.Name = "dtgwliste";
-            dtgwliste.ReadOnly = true;
-            dtgwliste.Size = new System.Drawing.Size(1189, 304);
+            dtgwliste.Size = new System.Drawing.Size(1189, 435);
             dtgwliste.TabIndex = 0;
+            dtgwliste.CellDoubleClick += dtgwliste_CellDoubleClick;
+            dtgwliste.CellValueChanged += dtgwliste_CellValueChanged;
             // 
             // Profile
             // 
@@ -176,7 +175,9 @@
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(1203, 579);
             Controls.Add(tabControl1);
+            MaximizeBox = false;
             Name = "Profile";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "Profile";
             Load += Profile_Load;
             tabControl1.ResumeLayout(false);
@@ -192,14 +193,14 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabProfil;
-        private System.Windows.Forms.DataGridView dtgwliste;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TabControl tabControl2;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TextBox txtara;
         private System.Windows.Forms.Label lblusercount;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnnew;
         private MaterialSkin.Controls.MaterialButton btnara;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtara;
+        private System.Windows.Forms.DataGridView dtgwliste;
     }
 }

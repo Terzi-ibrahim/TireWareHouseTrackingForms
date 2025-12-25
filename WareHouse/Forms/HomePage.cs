@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WareHouse.Forms.Account;
+using WareHouse.Forms.Admin;
 
 namespace WareHouse.Forms
 {
@@ -67,7 +68,7 @@ namespace WareHouse.Forms
 
         private void btnstock_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new Forms.Stock());
+            OpenChildForm(new Stocks());
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -77,15 +78,15 @@ namespace WareHouse.Forms
             login.ShowDialog();
         }
 
-        private void btntire_Click(object sender, EventArgs e)
-        {
-            OpenChildForm(new Forms.Tire());
-        }
 
         private void btnlocation_Click(object sender, EventArgs e)
         {
             OpenChildForm(new Forms.Location());
         }
 
+        private void btndepo_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new WareHouses());
+        }
     }
 }

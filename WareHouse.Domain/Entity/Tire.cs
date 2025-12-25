@@ -10,7 +10,7 @@ namespace WareHouse.Domain.Entity
     {
         public int TireId { get; set; }
         public int CategoryId { get; set; }
-        public int TireSizeId { get; set; }
+        public int TiresizeId { get; set; }
         public int ModelId { get; set; }
 
 

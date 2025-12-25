@@ -1,147 +1,100 @@
-﻿using Microsoft.Data.SqlClient;
-using System.Data;
+﻿
+using System.Text.RegularExpressions;
 using WareHouse.Domain.Entity;
-using WareHouse.Infrastructure.Context;
 
 namespace WareHouse.Application.Services
 {
     public class TireSizeService
     {
-        public DataTable GetTireSizesDataTable()
+        GenericRepository<TireSize> _repo = new GenericRepository<TireSize>();          
+
+        public List<TireSize> GetTireSize(TireSize size)
         {
-            DataTable tireSizesTable = new DataTable();
-            string query = "SELECT TireSizeId, TireSizeName FROM TireSize";
 
-            using (SqlConnection connection = AppDbContext.GetConnection())
-            {
-                try
-                {
+            string sql = "SELECT * FROM TireSize WHERE TireSizeName LIKE @SearchName";
 
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(query, connection))
-                    {
-                        adapter.Fill(tireSizesTable);
-                    }
-                }
-                catch (SqlException ex)
-                {
+            var result = _repo.GetAll<TireSize>(sql, new { SearchName = "%" + size.TireSizeName + "%" });
 
-                    throw new Exception($"TireSize verileri çekilirken hata oluştu: {ex.Message}", ex);
-                }
-            }
-
-            return tireSizesTable;
+            return result;
         }
-
-        public TireSize AddTireSize(string tireSizeName)
+        public int Delete(TireSize size)
         {
-          
-            TireSize size = new TireSize { TireSizeName = tireSizeName };          
-            string query = "INSERT INTO TireSize (TireSizeName) VALUES (@sizeName); SELECT CAST(SCOPE_IDENTITY() AS INT);";
-
-            using (SqlConnection connection = AppDbContext.GetConnection())
+            try
             {
-              
-                using (SqlCommand command = new SqlCommand(query, connection))
+
+                string sql = "DELETE FROM TireSize WHERE TireSizeId = @TireSizeId";
+                int rows = _repo.Execute(sql, size);
+
+                if (rows == 0)
                 {
-                   
-                    command.Parameters.AddWithValue("@sizeName", tireSizeName);
-
-                    try
-                    {
-                        connection.Open();
-
-                   
-                        object result = command.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                      
-                            size.TireSizeId = (int)result; 
-                        }
-                    }
-                    catch (SqlException ex)
-                    {
-                        
-                        throw new Exception($"Ebat eklerken veritabanı hatası oluştu: {ex.Message}", ex);
-                    }
+                    Console.WriteLine("Silinecek Ebat bulunamadı.");
+                    return 0;
                 }
+                return size.TireSizeId;
             }
-
-            return size;
-        }
-        public TireSize UpdateTireSize(int Id,string name)
-        {
-            TireSize size = new TireSize { TireSizeId= Id, TireSizeName=name};
-            string query = "UPDATE TireSize SET TireSizeName = @name WHERE TireSizeId = @Id";
-            using (SqlConnection connection = AppDbContext.GetConnection())
+            catch (Exception ex)
             {
-
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@name", name);
-                    command.Parameters.AddWithValue("@Id", Id);
-
-                    try
-                    {
-                        connection.Open();
-                        int rowsAffected = command.ExecuteNonQuery();
-
-                        if (rowsAffected == 0)
-                        {
-                           
-                            throw new Exception($"ID {Id} olan ebat bulunamadığı için güncelleme yapılamadı.");
-                        }
-
-                      
-                        return new TireSize { TireSizeId = Id, TireSizeName = name };
-
-                    }
-                    catch(SqlException ex)
-                    {
-                        throw new Exception($"Ebat güncellenirken veritabanı hatası oluştu: {ex.Message}", ex);
-                    }
-                
-                }
-            }
-       
-         }
-        public string DeleteTireSize(int Id)
-        {
-
-            string query = "DELETE FROM TireSize WHERE TireSizeId = @Id;";
-            using (SqlConnection connection = AppDbContext.GetConnection())
-            {
-
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-
-                    command.Parameters.AddWithValue("@Id", Id);
-
-                    try
-                    {
-                        connection.Open();
-                        int rowsAffected = command.ExecuteNonQuery();
-
-                        if (rowsAffected == 0)
-                        {
-
-                            throw new Exception($"ID {Id} olan ebat bulunamadığı için silme işlemi yapılamadı.");
-                        }
-
-                        return $"ID {Id} olan ebat başarıyla silindi. Etkilenen satır sayısı: {rowsAffected}";
-                    }
-                    catch (SqlException ex)
-                    {
-                        throw new Exception($"Ebat güncellenirken veritabanı hatası oluştu: {ex.Message}", ex);
-                    }
-
-                }       
-
+                Console.WriteLine($"[SERVICE HATA] ebat silme hatası: {ex.Message}");
+                return 0;
             }
         }
+        public int Update(TireSize size)
+        {
 
+            if (string.IsNullOrWhiteSpace(size.TireSizeName))
+            {
+                throw new ArgumentException("Lütfen bütün bilgilerinizi eksiksiz doldurun.");
+            }
+            string pattern = @"^[0-9]{3}-[0-9]{2}-[0-9]{2}$";
 
+            if (!Regex.IsMatch(size.TireSizeName, pattern))
+            {
+                throw new ArgumentException("Lütfen doğru formatta ebat giriniz (Örn: 205-55-16)");
+            }
+            try
+            {
+                string sql = @"UPDATE TireSize 
+                       SET TireSizeName = @TireSizeName                        
+                       WHERE TireSizeId = @TireSizeId";
+                int rows = _repo.Execute(sql, size);
 
+                if (rows == 0)
+                {
+                    Console.WriteLine("Güncellenecek Ebat bulunamadı.");
+                    return 0;
+                }
 
+                return size.TireSizeId;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SERVICE HATA] Ebat güncelleme hatası: {ex.Message}");
+                return 0;
+            }
+        }
+        public bool Add(TireSize size)
+        {
+            if (string.IsNullOrEmpty(size.TireSizeName) )
+            {
+                throw new ArgumentException("Lütfen bütün bilgilerinizi eksiksiz doldurun.");
+            }            
+            try
+            {
+                string sql = "INSERT INTO TireSize (TireSizeName)VALUES (@TireSizeName);";
+                int result = _repo.Execute(sql, size);
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[SERVICE HATA] Ebat oluşturma sırasında bir hata oluştu: {ex.Message}");
+                return false;
+            }
+        }
+        public List<TireSize> GetAll()
+        {
+            string sql = "Select * From TireSize";
+            return _repo.GetAll<TireSize>(sql);
+            
+        }
     }
 }

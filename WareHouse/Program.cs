@@ -1,7 +1,6 @@
 ﻿using System.Windows.Forms;
 using WareHouse.Forms;
 using WareHouse.Forms.Account;
-using WareHouse.Forms.Admin;
 
 
 Application.EnableVisualStyles();

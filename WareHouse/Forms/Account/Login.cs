@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WareHouse.Application.Services;
+using WareHouse.Domain.Entity;
 
 namespace WareHouse.Forms.Account
 {
@@ -14,41 +15,47 @@ namespace WareHouse.Forms.Account
 
         private async void btnLogin_Click(object sender, EventArgs e)
         {
-            string mail = txtMail.Text;
-            string password = txtPassword.Text;         
-            if (string.IsNullOrEmpty(mail)|| string.IsNullOrEmpty(password))
-            {
-                lbleror.Text = "Lütfen mail adresinizi ve şifrenizi giriniz";
-                return;
-            }
-            if (!mail.Contains("@gmail.com"))
-            {
-                lbleror.Text = "Lütfen Mail bilgilerinizi kontrol ediniz.\n(@gmail.com / @hotmail.com)";
-                return;
-            }
+            string identifier = txtMail.Text; 
+            string password = txtPassword.Text;
+
 
             AccountService accountService = new AccountService();
 
             try
             {
-                if (accountService.Login(mail, password)) 
+                
+                Users loginUser = accountService.Login(identifier, password);
+
+                if (loginUser != null)
                 {
-                    lbleror.Text = "Giriş Başarılı";
-                    await Task.Delay(1500);
-                    HomePage home = new HomePage();
+                    lbleror.Text = "Giriş Başarılı. Yönlendiriliyorsunuz...";
+                    await Task.Delay(1000);
+
                     this.Hide();
-                    home.ShowDialog();
+
+                 
+                    if (loginUser.RoleName == "Admin")
+                    {
+                        AdminPage admin = new AdminPage();
+                        admin.ShowDialog();
+                    }
+                    else
+                    {
+                        HomePage home = new HomePage();
+                        home.ShowDialog();
+                    }
+
+                    this.Close(); 
                 }
-                else 
+                else
                 {
-                    
-                    MessageBox.Show("Kullanıcı adı veya şifre yanlış.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Kullanıcı adı/E-posta veya şifre hatalı!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (ArgumentException ex) 
-             { 
-                MessageBox.Show(ex.Message, "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-             }               
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void lnklblNewAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
